@@ -59,39 +59,43 @@ exports.signup = async (req, res) => {
 	}
 }
 exports.login = async (req, res) => {
-    try{
-        const { email, password } = req.body;
-
+   
+	try {
+		const { email, password } = req.body;
+	
 		if (!email || !password) {
 			return res.status(400).json({ success: false, message: "All fields are required" });
 		}
-
+	
 		const user = await User.findOne({ email: email });
 		if (!user) {
 			return res.status(404).json({ success: false, message: "Invalid credentials" });
 		}
-
-        const isPasswordCorrect = await bcryptjs.compare(password, user.password);
-
+	
+		const isPasswordCorrect = await bcryptjs.compare(password, user.password);
+	
 		if (!isPasswordCorrect) {
 			return res.status(400).json({ success: false, message: "Invalid credentials" });
 		}
-
-        generateTokenAndSetCookie(user._id, res);
-
+	
+		// Assuming generateTokenAndSetCookie sets the JWT token in a cookie.
+		generateTokenAndSetCookie(user._id, res);
+	
+		// Login successful, return user details and success message
 		res.status(200).json({
 			success: true,
+			message: "Login successful! Welcome back.", // This is the message that will be printed on successful login.
 			user: {
 				...user._doc,
-				password: "",
+				password: "",  // Do not return the password in the response
 			},
 		});
-
-    }catch(error){
-        console.log("Error in login controller", error.message);
+	
+	} catch (error) {
+		console.log("Error in login controller", error.message);
 		res.status(500).json({ success: false, message: "Internal server error" });
-    }
- 
+	}
+	
 }
 exports.logout = async (req, res) => {
     try{

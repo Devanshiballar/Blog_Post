@@ -1,38 +1,7 @@
 const blogModel = require("../models/blogModel");
 
 // Create Blog Post
-// exports.create = async (req, res) => {
-//   try {
-//     const blog_image = req?.file?.filename; // Image filename from file upload
-//     const { blog_title, blog_description, about_blog } = req.body;
 
-//     const blog = await blogModel.create({
-//       blog_image,
-//       blog_title,
-//       blog_description,
-//       about_blog,
-//     });
-
-//     if (blog) {
-//       return res.status(201).json({
-//         success: true,
-//         message: "Blog created successfully",
-//         data: blog,
-//       });
-//     } else {
-//       return res.status(400).json({
-//         success: false,
-//         message: "Failed to create blog",
-//       });
-//     }
-//   } catch (err) {
-//     return res.status(500).json({
-//       success: false,
-//       message: "Server Error",
-//       error: err.message,
-//     });
-//   }
-// };
 exports.create = async (req, res) => {
   try {
     const blog_image = req?.file?.filename;
